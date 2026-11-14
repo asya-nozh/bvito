@@ -64,6 +64,10 @@ p, h1, h2, h3 { margin: 0; }
 .category-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 23px 30px; }
 .category-strip button { border: 1px solid var(--line); border-radius: 30px; background: var(--white); padding: 9px 15px; color: var(--ink); font-weight: 640; }
 .category-strip button:hover, .category-strip button[aria-pressed=true] { background: var(--mist); border-color: var(--blue); color: var(--blue); }
+.other-categories-button { display: inline-flex; gap: 6px; align-items: center; }
+.category-strip .other-categories-button.selected,
+.category-strip .other-categories-button[aria-expanded=true] { background: var(--mist); border-color: var(--blue); color: var(--blue); }
+.other-categories { display: flex; flex-wrap: wrap; gap: 8px; width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 15px; background: var(--white); }
 .catalog-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 15px; }
 .catalog-toolbar h2, .personal-toolbar h1 { font-size: clamp(1.45rem, 3vw, 2.15rem); letter-spacing: -.045em; }
 .sort-control { display: flex; gap: 10px; align-items: center; color: var(--muted); font-size: .88rem; }

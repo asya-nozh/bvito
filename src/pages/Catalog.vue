@@ -18,6 +18,21 @@ const initials = { q: '', category: '', subcategory: '', min: '', max: '', condi
 const filters = reactive({ ...initials })
 const desktopFilters = !matchMedia('(max-width: 790px)').matches
 const query = ref('')
+const primaryCategories = ['', 'Техника', 'Для дома', 'Одежда', 'Хобби и спорт']
+const otherCategories = Object.keys(categories).filter(category => !primaryCategories.includes(category))
+const showOtherCategories = ref(false)
+const otherButton = ref(null)
+
+function chooseOtherCategory(category) {
+  chooseCategory(category)
+  showOtherCategories.value = false
+  otherButton.value?.focus()
+}
+
+function closeOtherCategories() {
+  showOtherCategories.value = false
+  otherButton.value?.focus()
+}
 const applied = ref({ ...initials })
 const alternatives = computed(() => categories[filters.category] || [])
 const activeFilters = computed(() => Object.keys(initials).some(key => applied.value[key] !== initials[key]))
@@ -95,10 +110,24 @@ onUnmounted(() => request?.abort())
   </section>
 
   <div v-if="!view" class="category-strip" aria-label="Категории">
-    <button v-for="category in ['', ...Object.keys(categories)]" :key="category"
+    <button v-for="category in primaryCategories" :key="category" type="button"
       :aria-pressed="filters.category === category" @click="chooseCategory(category)">
       {{ category || 'Все категории' }}
     </button>
+    <button ref="otherButton" type="button" class="other-categories-button"
+      :aria-expanded="showOtherCategories" aria-controls="other-categories"
+      :class="{ selected: otherCategories.includes(filters.category) }"
+      @click="showOtherCategories = !showOtherCategories">
+      Другие<span v-if="!showOtherCategories && otherCategories.includes(filters.category)"> · {{ filters.category }}</span>
+      <span aria-hidden="true">{{ showOtherCategories ? '−' : '+' }}</span>
+    </button>
+    <div v-show="showOtherCategories" id="other-categories" class="other-categories" role="group"
+      aria-label="Другие категории" @keydown.esc.prevent="closeOtherCategories">
+      <button v-for="category in otherCategories" :key="category" type="button"
+        :aria-pressed="filters.category === category" @click="chooseOtherCategory(category)">
+        {{ category }}
+      </button>
+    </div>
   </div>
 
   <div v-if="!view" class="catalog-toolbar">
