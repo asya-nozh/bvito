@@ -34,6 +34,7 @@ app.get('*', (req, res, next) => {
   if (!/^\/(?:catalog|favorites|mine|reservations|profile|login|new|listing\/[a-f\d]{24}(?:\/edit)?|500)?\/?$/i.test(req.path)) {
     res.status(404)
   }
+  if (req.path.replace(/\/$/, '') === '/500') res.status(500)
   res.set('Cache-Control', 'no-cache')
   res.sendFile(index, error => { if (error) next(error) })
 })

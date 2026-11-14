@@ -16,6 +16,7 @@ const emptyTexts = {
 }
 const initials = { q: '', category: '', subcategory: '', min: '', max: '', condition: '', sort: 'newest' }
 const filters = reactive({ ...initials })
+const desktopFilters = !matchMedia('(max-width: 790px)').matches
 const query = ref('')
 const applied = ref({ ...initials })
 const alternatives = computed(() => categories[filters.category] || [])
@@ -116,7 +117,7 @@ onUnmounted(() => request?.abort())
   </div>
 
   <div :class="['catalog-layout', { personal: view }]">
-    <details v-if="!view" class="filter-panel" open>
+    <details v-if="!view" class="filter-panel" :open="desktopFilters">
       <summary><Icon name="filter" /> Фильтры</summary>
       <form class="filters" @submit.prevent="apply">
         <label v-if="alternatives.length">Подкатегория

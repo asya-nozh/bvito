@@ -22,7 +22,7 @@ function publicListing(listing, user) {
     seller: { name: seller?.name || 'Продавец' },
     isMine, reservedByMe, reserved: Boolean(reservedBy)
   }
-  if (reservedByMe) {
+  if (reservedByMe && seller && Object.hasOwn(seller, 'phone')) {
     result.contact = { phone: seller?.phone || '', telegram: seller?.telegram || '' }
   }
   return result

@@ -23,6 +23,7 @@ const login = name => request('/api/account/login', { method: 'POST', body: { lo
 async function main() {
   await request('/')
   await request('/несуществующая-страница', { status: 404 })
+  await request('/500', { status: 500 })
   await request('/api/unknown', { status: 404 })
   await request('/api/listings/invalid', { status: 404 })
   const all = (await request('/api/listings')).data.items
